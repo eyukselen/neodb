@@ -22,3 +22,4 @@ dependencies = ["fastapi"]
 [project.urls]
 Homepage = 'https://github.com/eyukselen/neodb'
 "Source Code" = 'https://github.com/eyukselen/neodb'
+Documentation = 'https://neodb.readthedocs.io/en/latest/index.html'

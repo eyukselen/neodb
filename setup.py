@@ -27,5 +27,6 @@ setup(
     project_urls={
         'Homepage': 'https://github.com/eyukselen',
         'Source': 'https://github.com/eyukselen/neodb',
+        'Documentation': 'https://neodb.readthedocs.io/en/latest/index.html',
     }
 )
