@@ -1,12 +1,15 @@
 import os
 import sys
 
+sys.path.insert(0, os.path.abspath('../../src/'))
 
-sys.path.insert(0, os.path.abspath('..'))
+from neodb.__version__ import __version__
+
 project = 'neodb'
 copyright = '2024, emre'
 author = 'emre'
-release = '0.0.1'
+release = __version__
+
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -25,6 +28,7 @@ exclude_patterns = ['_build', '.idea']
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'alabaster'
+# html_theme = 'classic'
 html_static_path = ['_static']
 
 html_theme_options = {
@@ -33,4 +37,8 @@ html_theme_options = {
     "github_repo": "neodb",
     "github_banner": True,
     "show_related": False,
+}
+
+html_sidebars = {
+    'default': ['localtoc.html', 'genindex.html', 'modindex.html', 'search.html', 'navigation.html'],
 }

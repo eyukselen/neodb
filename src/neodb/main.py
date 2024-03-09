@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from FileBackend import FileSystemBackend
-from InMemoryBackend import InMemoryBackend
+from neodb.MemoryDB import MemoryDB
+from neodb.FileSystemDB import FileSystemDB
 
 
 def server(backend: object = None, **kwargs: object):
@@ -14,10 +14,10 @@ def server(backend: object = None, **kwargs: object):
     :return:
     """
     if backend == "memory":
-        backend = InMemoryBackend()
+        backend = MemoryDB()
     elif backend == 'filesystem':
         if 'base_path' in kwargs:
-            backend = FileSystemBackend(kwargs.get('base_path'))
+            backend = FileSystemDB(kwargs.get('base_path'))
     else:
         exit(1)
 

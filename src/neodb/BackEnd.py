@@ -1,3 +1,7 @@
+"""
+This module has abstract base class. Not intended for use by import
+"""
+
 from abc import ABC, abstractmethod
 from typing import Any, Union, List
 

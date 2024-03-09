@@ -7,13 +7,17 @@
 Welcome to NeoDB's documentation!
 =================================
 
+version number: |release|
+
+
 .. toctree::
    :maxdepth: 3
+   :hidden:
    :caption: Contents:
 
    NeoDB <neodb>
-   File Backend <FileBackend>
-   Memory Backend <InMemoryBackend>
+   FileSystemDB <FileSystemDB>
+   MemoryDB <MemoryDB>
 
 
 Indices and tables

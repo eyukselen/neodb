@@ -1,11 +1,24 @@
-from typing import Any, Union
-from BackEnd import StorageBackend
+"""
+MemoryDB is a simple key value store using python dictionaries
+"""
+from typing import Any, Union, Optional
+from neodb.BackEnd import StorageBackend
 
 
-class InMemoryBackend(StorageBackend):
-    def __init__(self):
-        self.documents = {}  # store all documents with unique id
-        self.buckets = {'/': []}  # store bucket and document names
+class MemoryDB(StorageBackend):
+    """
+    Uses python dictionary to store data
+    """
+    def __init__(self, name: Optional[str] = ''):
+        """
+        Create an instance of the MemoryDB class
+
+        :param name: name for the database
+        :return: MemoryDB instance
+        """
+        self.documents = {}  # store all documents/values with unique id = document_url
+        self.buckets = {'/': []}  # store bucket :  [document names]
+        self.name = name
 
     def bucket_exists(self, bucket_url: str) -> bool:
         if bucket_url in self.buckets:

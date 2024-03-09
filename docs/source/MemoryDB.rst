@@ -1,13 +1,13 @@
 =======================
-InMemoryBackend Module
+MemoryDB Module
 =======================
 
-.. topic:: Module: InMemoryBackend
+.. topic:: Module: neodb.MemoryDB
 
     This module provides functions and classes for neodb.
     This is a simple module with memory and file backends
 
-.. automodule:: InMemoryBackend
+.. automodule:: neodb.MemoryDB
    :members:
-   :undoc-members:  # Include if you don't have manual docstrings in your code
+   :undoc-members:
    :show-inheritance:

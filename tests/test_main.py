@@ -1,6 +1,6 @@
 from unittest import TestCase
 from fastapi.testclient import TestClient
-from src.main import server
+from neodb.main import server
 import io
 
 

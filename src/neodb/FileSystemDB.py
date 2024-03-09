@@ -1,10 +1,10 @@
 import os
-from BackEnd import StorageBackend
+from neodb.BackEnd import StorageBackend
 from typing import Any, Union
 import shutil
 
 
-class FileSystemBackend(StorageBackend):
+class FileSystemDB(StorageBackend):
     def __init__(self, base_path):
         self.base_path = base_path
         os.makedirs(self.base_path, exist_ok=True)

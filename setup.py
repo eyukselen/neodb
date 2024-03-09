@@ -1,14 +1,16 @@
 from setuptools import setup, find_packages
+from neodb.__version__ import __version__
+
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
     name='neodb',
-    version='0.0.1',
-    package_dir={'': 'src'},
+    version=__version__,
     packages=find_packages(where='src'),
-    py_modules=['neodb'],
+    package_dir={'': 'src'},
+    # py_modules=['neodb'],
     url='https://github.com/eyukselen/neodb',
     license='MIT',
     author='emre',
@@ -28,5 +30,6 @@ setup(
         'Homepage': 'https://github.com/eyukselen',
         'Source': 'https://github.com/eyukselen/neodb',
         'Documentation': 'https://neodb.readthedocs.io/en/latest/index.html',
-    }
+    },
+    install_requires=["fastapi",]
 )

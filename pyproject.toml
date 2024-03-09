@@ -1,9 +1,9 @@
 [project]
 name = "neodb"
-version = "0.0.1"
+version = "0.0.2"
 description = "a simple module for a document store"
 readme = "README.md"
-authors = [{name="emre", email=""}]
+authors = [{name="emre"}]
 license = {file = "LICENSE"}
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
