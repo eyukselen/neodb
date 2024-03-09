@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
-from neodb.__version__ import __version__
+
+exec(open('src/neodb/__version__.py').read())
 
 
 with open("README.md", "r") as fh:
