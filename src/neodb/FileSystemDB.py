@@ -5,6 +5,7 @@ import shutil
 
 
 class FileSystemDB(StorageBackend):
+    # TODO: need to handle paths if it is windows
     def __init__(self, base_path):
         self.base_path = base_path
         os.makedirs(self.base_path, exist_ok=True)
