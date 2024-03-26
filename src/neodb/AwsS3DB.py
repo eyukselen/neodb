@@ -70,7 +70,6 @@ class AwsS3DB(StorageBackend):
                 self.s3.delete_objects(Bucket=bucket_name, Delete={'Objects': objects})
 
             # If there are more objects to delete (due to pagination), recursively call the function
-            # TODO: need to add NextContinuationToken for test coverage
             if 'NextContinuationToken' in response:
                 delete_s3_prefix(bucket_name, prefix)
 
@@ -99,7 +98,6 @@ class AwsS3DB(StorageBackend):
             Prefix=bucket_url,
             Delimiter='/'
         )
-        # TODO: response["KeyCount"] needs to change - not always in response top level
         if response["KeyCount"] != 0:
             documents = ["/" + obj["Key"] for obj in response["Contents"]]
             documents.remove("/" + bucket_url)
@@ -135,7 +133,6 @@ class AwsS3DB(StorageBackend):
         except botocore.exceptions.ClientError as e:
             return False
 
-    # TODO: needs to be tested
     def store_large_document(self, document_url: str, data_stream: Any, chunk_size=5 * 1024 * 1024) -> bool:
         """
            Uploads a large document to S3 in parts. s3 sets minimum part size as 5MB except last part

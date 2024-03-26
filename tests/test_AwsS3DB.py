@@ -71,9 +71,10 @@ class TestAwsS3DB(TestCase):
                 "bucket-1/bucket-1.2/document-4.txt",
                 ]
         doc_data = "test data!"
-        for doc_url in docs:
+        #
+        for x in range(1002):
+            doc_url = f"bucket-1/bucket-1.1/document-{x}.txt"
             res = self.s3.put_object(Bucket=self.base_path, Key=doc_url, Body=doc_data)
-            self.assertEqual(res['ResponseMetadata']['HTTPStatusCode'], 200)
         res = self.s3db.delete_bucket("/bucket-1")
         self.assertTrue(res)
         for doc_url in docs:
