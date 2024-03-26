@@ -3,6 +3,8 @@ from typing import Any, Union
 import boto3
 import botocore
 from botocore.exceptions import ClientError
+from boto3.s3.transfer import TransferConfig
+from io import BytesIO  # Import for handling byte streams
 
 
 class AwsS3DB(StorageBackend):
@@ -133,11 +135,55 @@ class AwsS3DB(StorageBackend):
         except botocore.exceptions.ClientError as e:
             return False
 
+    # TODO: needs to be tested
+    def store_large_document(self, document_url: str, data_stream: Any, chunk_size=5 * 1024 * 1024) -> bool:
+        """
+           Uploads a large document to S3 in parts. s3 sets minimum part size as 5MB except last part
+
+           Args:
+               document_url (str): The URL (key) for the document in S3.
+               data_stream (Any): A file-like object or data source providing a read method for chunks.
+               chunk_size (int, optional): The size of each upload part in bytes. Defaults to 5 MB.
+
+           Returns:
+               bool: True if upload is successful, False otherwise.
+        """
+        # config = TransferConfig(multipart_threshold=chunk_size)  # Set chunk size for multipart upload
+
+        upload_id = self.s3.create_multipart_upload(Bucket=self.base_path, Key=document_url)['UploadId']
+
+        parts = []
+        part_number = 1
+
+        while True:
+            data_chunk = data_stream.read(chunk_size)
+            if not data_chunk:  # Reached end of stream
+                break
+
+            response = self.s3.upload_part(Bucket=self.base_path, Key=document_url,
+                                           UploadId=upload_id,
+                                           PartNumber=part_number,
+                                           Body=data_chunk)
+            parts.append({'PartNumber': part_number, 'ETag': response['ETag']})
+            part_number += 1
+
+        try:
+            self.s3.complete_multipart_upload(Bucket=self.base_path, Key=document_url,
+                                              MultipartUpload={'Parts': parts},
+                                              UploadId=upload_id)
+            return True
+        except Exception as e:
+            # Handle potential errors during complete_multipart_upload
+            print(f"Error completing multipart upload: {e}")
+            return False
+
     def delete_document(self, document_url: str) -> bool:
         document_url = self._make_url(document_url).rstrip("/")
-        res = self.s3.head_object(Bucket=self.base_path, Key=document_url)
-        if res["ResponseMetadata"]["HTTPStatusCode"] == 200:
-            response = self.s3.delete_object(Bucket=self.base_path, Key=document_url)
-            if response["ResponseMetadata"]["HTTPStatusCode"] == 204:
-                return True
-        return False
+        try:
+            res = self.s3.head_object(Bucket=self.base_path, Key=document_url)
+            if res["ResponseMetadata"]["HTTPStatusCode"] == 200:
+                response = self.s3.delete_object(Bucket=self.base_path, Key=document_url)
+                if response["ResponseMetadata"]["HTTPStatusCode"] == 204:
+                    return True
+        except botocore.exceptions.ClientError as e:
+            return False

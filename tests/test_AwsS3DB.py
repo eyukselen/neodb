@@ -1,9 +1,9 @@
-from unittest import TestCase
+from unittest import TestCase, mock
 from moto import mock_aws
 from src.neodb.AwsS3DB import AwsS3DB
 import boto3
 import os
-
+import io
 
 os.environ['AWS_ACCESS_KEY_ID'] = 'testing'
 os.environ['AWS_SECRET_ACCESS_KEY'] = 'testing'
@@ -80,20 +80,17 @@ class TestAwsS3DB(TestCase):
             res = self.s3db.document_exists("/" + doc_url)
             self.assertEqual(res, False)
 
-
-
     def test_document_exists(self):
         db_bucket_1 = "my-bucket-1"
         doc_url = db_bucket_1 + "/" + "my-document.txt"
         doc_data = "test data!"
-        response = self.s3.put_object(Bucket=self.base_path, Key=db_bucket_1 + "/")
+        self.s3.put_object(Bucket=self.base_path, Key=db_bucket_1 + "/")
         res = self.s3db.store_document("/" + doc_url, doc_data)
         self.assertEqual(res, True)
         response = self.s3.get_object(Bucket=self.base_path, Key=doc_url)
-        fetched = response['Body'].read()
+        self.assertTrue(response)
         result = self.s3db.document_exists("/" + doc_url)
         self.assertEqual(result, True)
-        self.assertTrue(response)
 
     def test_list_documents(self):
         db_bucket_1 = "my-bucket-1"
@@ -142,6 +139,18 @@ class TestAwsS3DB(TestCase):
         response = s3db_fake.store_document("/" + doc_url, doc_data)
         self.assertFalse(response)
 
+    def test_store_large_document(self):
+        db_bucket_1 = "my-bucket-1"
+        doc_url = db_bucket_1 + "/" + "my-document.txt"
+        self.s3.put_object(Bucket=self.base_path, Key=db_bucket_1)
+        data_stream = io.BytesIO(bytearray(b'#' * (10 * 1024 * 1024)))
+        result = self.s3db.store_large_document(doc_url, data_stream, chunk_size=1024 * 1024 * 5)
+        self.assertTrue(result)
+        with mock.patch.object(self.s3, 'upload_part') as mock_upload_part:
+            result = self.s3db.store_large_document(doc_url, data_stream, chunk_size=1024 * 1024 * 5)
+            mock_upload_part.side_effect = Exception("Test exception")
+        self.assertFalse(result)
+
     def test_delete_document(self):
         db_bucket_1 = "my-bucket-1"
         doc_url = db_bucket_1 + "/" + "my-document.txt"
@@ -162,7 +171,7 @@ class TestAwsS3DB(TestCase):
         r2 = self.s3db.document_exists("/" + doc_url)
         self.assertFalse(r2)
         # delete non-existing document
-        r3 = self.s3db.document_exists("/not-a-bucket/not-a-document.txt")
+        r3 = self.s3db.delete_document("/dummy.txt")
         self.assertFalse(r3)
 
     def tearDown(self):
