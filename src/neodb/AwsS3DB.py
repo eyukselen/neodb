@@ -3,8 +3,8 @@ from typing import Any, Union
 import boto3
 import botocore
 from botocore.exceptions import ClientError
-from boto3.s3.transfer import TransferConfig
-from io import BytesIO  # Import for handling byte streams
+# from boto3.s3.transfer import TransferConfig
+# from io import BytesIO  # Import for handling byte streams
 
 
 class AwsS3DB(StorageBackend):
@@ -82,8 +82,8 @@ class AwsS3DB(StorageBackend):
 
     def document_exists(self, document_url) -> bool:
         document_url = self._make_url(document_url).rstrip("/")
-        folder = "/".join(document_url.split("/")[:-1]) + "/"
-        doc_name = "".join(document_url.split("/")[-1:])
+        # folder = "/".join(document_url.split("/")[:-1]) + "/"
+        # doc_name = "".join(document_url.split("/")[-1:])
         try:
             self.s3.head_object(Bucket=self.base_path, Key=document_url)
             return True

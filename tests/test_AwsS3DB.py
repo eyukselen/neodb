@@ -157,10 +157,10 @@ class TestAwsS3DB(TestCase):
         doc_data = "test data!"
         # create folder
         response = self.s3.put_object(Bucket=self.base_path, Key=db_bucket_1 + "/")
-        self.assertEqual(200, response["ResponseMetadata"]["HTTPStatusCode"] )
+        self.assertEqual(200, response["ResponseMetadata"]["HTTPStatusCode"])
         # store a document
-        response = self.s3.put_object(Bucket=self.base_path, Key=doc_url)
-        self.assertEqual(200, response["ResponseMetadata"]["HTTPStatusCode"] )
+        response = self.s3.put_object(Bucket=self.base_path, Key=doc_url, Body=doc_data)
+        self.assertEqual(200, response["ResponseMetadata"]["HTTPStatusCode"])
         # check it exists
         r1 = self.s3db.document_exists("/" + doc_url)
         self.assertTrue(r1)
