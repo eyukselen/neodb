@@ -1,7 +1,3 @@
-import threading
-import time
-
-
 class NeoDB:
     def __init__(self, dbname = "neodb"):
         self.dbname = dbname
