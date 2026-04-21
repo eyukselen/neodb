@@ -17,7 +17,7 @@ classifiers = [
 
 keywords = ["database", "document store", "key value"]
 
-dependencies = ["fastapi"]
+dependencies = []
 
 [project.urls]
 Homepage = 'https://github.com/eyukselen/neodb'
