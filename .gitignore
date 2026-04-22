@@ -1,37 +1,30 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-eggs/
-.eggs/
-sdist/
-var/
-wheels/
-*.egg-info/
-*.egg
-
+# IDEs
 .idea/
+.vscode/
+*.swp
+
+# Python internals
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+.python-version
 
-
-
-# Sphinx documentation
-docs/build/
-
+# Distribution / Build
+dist/
+build/
+*.egg-info/
+MANIFEST
 
 # Environments
-.venv
+.venv/
 venv/
+env/
 
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
+# Documentation builds
+docs/_build/

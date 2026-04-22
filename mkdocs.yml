@@ -1,0 +1,38 @@
+site_name: neodb
+site_description: a simple library for Key Value Store Database
+site_url: https://neodb.readthedocs.io
+repo_url: https://github.com/eyukselen/neodb
+repo_name: eyukselen/neodb
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+            heading_level: 3
+            docstring_style: google
+
+nav:
+  - Home: index.md
+  - API Reference: api.md

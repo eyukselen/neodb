@@ -1,25 +1,35 @@
 [project]
 name = "neodb"
-version = "0.0.2"
-description = "a simple module for a document store"
+dynamic = ["version"]
+description = "a simple library for Key Value Store Database"
 readme = "README.md"
-authors = [{name="emre"}]
+authors = [{name="eyukselen"}]
 license = {file = "LICENSE"}
+keywords = ["database", "document store", "key value", "key-value store"]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 2 - Alpha",
     "Operating System :: OS Independent",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Database :: Database Engines/Servers",
+    "Topic :: Software Development :: Libraries",
 ]
 
-keywords = ["database", "document store", "key value"]
-
+requires-python = ">=3.8"
 dependencies = []
 
 [project.urls]
 Homepage = 'https://github.com/eyukselen/neodb'
 "Source Code" = 'https://github.com/eyukselen/neodb'
-Documentation = 'https://neodb.readthedocs.io/en/latest/index.html'
+"Documentation" = 'https://neodb.readthedocs.io'
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme = "release-branch-semver"
+local_scheme = "no-local-version"
+fallback_version = "0.0.0.dev0"
